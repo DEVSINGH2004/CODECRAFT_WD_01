@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stylish Navigation Menu</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* NAVIGATION */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(51, 51, 51, 0.9);
+      color: white;
+      z-index: 1000;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s ease;
+    }
+
+    nav.scrolled {
+      background-color: #111;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 17px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: white;
+      color: #333;
+    }
+
+    /* HAMBURGER MENU */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: white;
+      margin: 4px 0;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background-color: #222;
+        flex-direction: column;
+        width: 200px;
+        display: none;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    /* CONTENT */
+    .content {
+      padding-top: 80px;
+    }
+
+    section {
+      height: 100vh;
+      padding: 60px 30px;
+      background-color: #f4f4f4;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    section:nth-child(even) {
+      background-color: #eaeaea;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 20px;
+      max-width: 700px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="logo">MyWebsite</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="nav-links">
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#services" class="nav-link">Services</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="content">
+    <section id="home">
+      <h1>Welcome to MyWebsite</h1>
+      <p>This is a stylish and interactive navigation bar example. Scroll to see the effects!</p>
+    </section>
+    <section id="about">
+      <h1>About Us</h1>
+      <p>We are passionate about creating clean, responsive, and accessible web interfaces.</p>
+    </section>
+    <section id="services">
+      <h1>Services</h1>
+      <p>We offer web design, development, SEO optimization, and more.</p>
+    </section>
+    <section id="contact">
+      <h1>Contact</h1>
+      <p>Feel free to reach out via email or connect with us on social media.</p>
+    </section>
+  </div>
+
+  <script>
+    // Scroll behavior: change nav color
+    window.addEventListener('scroll', function () {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 60) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+
+      // Highlight current section
+      const links = document.querySelectorAll('.nav-link');
+      let index = [...document.querySelectorAll('section')].findIndex(sec =>
+        window.scrollY >= sec.offsetTop - 100
+      );
+      links.forEach(link => link.classList.remove('active'));
+      if (links[index]) links[index].classList.add('active');
+    });
+
+    // Mobile menu toggle
+    function toggleMenu() {
+      const links = document.getElementById('nav-links');
+      links.classList.toggle('show');
+    }
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('nav-links').classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>
